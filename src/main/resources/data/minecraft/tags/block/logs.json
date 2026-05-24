@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "verdantrealms:elderwood_log",
+    "verdantrealms:starwood_log",
+    "verdantrealms:ashenwood_log"
+  ]
+}

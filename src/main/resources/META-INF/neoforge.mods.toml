@@ -1,0 +1,25 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "verdantrealms"
+version = "1.0.0"
+displayName = "VerdantRealms"
+description = "A world generation mod that adds 12 beautiful biomes, giant trees, new structures, edible plants, and stunning visual effects. Transform your Minecraft world into a breathtaking landscape with crystal caverns, floating islands, volcanic wastes, and the legendary Tree of Life."
+authors = "VerdantRealms Team"
+credits = "Built for NeoForge 1.21.4"
+
+[[dependencies.verdantrealms]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.4,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.verdantrealms]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.4,1.22)"
+ordering = "NONE"
+side = "BOTH"
