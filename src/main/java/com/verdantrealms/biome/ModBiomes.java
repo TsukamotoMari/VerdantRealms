@@ -1,13 +1,14 @@
 package com.verdantrealms.biome;
 
 import com.verdantrealms.VerdantRealms;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.*;
-import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class ModBiomes {
     // 12 Custom Biomes
@@ -33,11 +34,8 @@ public class ModBiomes {
     }
 
     // Biome Builders
-    public static Biome crystalCaverns() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome crystalCaverns(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
 
         MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
         BiomeDefaultFeatures.commonSpawns(spawns);
@@ -58,11 +56,8 @@ public class ModBiomes {
             .build();
     }
 
-    public static Biome etherealGrove() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome etherealGrove(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
         BiomeDefaultFeatures.addDefaultOres(gen);
         BiomeDefaultFeatures.addDefaultSoftDisks(gen);
         BiomeDefaultFeatures.addDefaultMushrooms(gen);
@@ -88,15 +83,12 @@ public class ModBiomes {
             .build();
     }
 
-    public static Biome emberWastes() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome emberWastes(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
         BiomeDefaultFeatures.addDefaultOres(gen);
 
         MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        spawns.addSpawn(net.minecraft.world.entity.MobCategory.MONSTER, 
+        spawns.addSpawn(net.minecraft.world.entity.MobCategory.MONSTER,
             new MobSpawnSettings.SpawnerData(net.minecraft.world.entity.EntityType.BLAZE, 50, 2, 4));
 
         return new Biome.BiomeBuilder()
@@ -115,11 +107,8 @@ public class ModBiomes {
             .build();
     }
 
-    public static Biome frostfellPeaks() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome frostfellPeaks(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
         BiomeDefaultFeatures.addDefaultOres(gen);
         BiomeDefaultFeatures.addDefaultSoftDisks(gen);
 
@@ -144,11 +133,8 @@ public class ModBiomes {
             .build();
     }
 
-    public static Biome skywardIsles() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome skywardIsles(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
 
         MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
         BiomeDefaultFeatures.commonSpawns(spawns);
@@ -169,15 +155,11 @@ public class ModBiomes {
             .build();
     }
 
-    public static Biome verdantJungle() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome verdantJungle(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
         BiomeDefaultFeatures.addDefaultOres(gen);
         BiomeDefaultFeatures.addJungleTrees(gen);
         BiomeDefaultFeatures.addDefaultExtraVegetation(gen);
-        BiomeDefaultFeatures.addJungleExtraVegetation(gen);
 
         MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
         BiomeDefaultFeatures.commonSpawns(spawns);
@@ -199,11 +181,8 @@ public class ModBiomes {
             .build();
     }
 
-    public static Biome blossomValley() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome blossomValley(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
         BiomeDefaultFeatures.addDefaultOres(gen);
         BiomeDefaultFeatures.addDefaultSoftDisks(gen);
         BiomeDefaultFeatures.addDefaultMushrooms(gen);
@@ -228,11 +207,8 @@ public class ModBiomes {
             .build();
     }
 
-    public static Biome shadowmire() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome shadowmire(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
         BiomeDefaultFeatures.addDefaultOres(gen);
 
         MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
@@ -257,11 +233,8 @@ public class ModBiomes {
             .build();
     }
 
-    public static Biome starfallPlains() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome starfallPlains(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
         BiomeDefaultFeatures.addDefaultOres(gen);
         BiomeDefaultFeatures.addDefaultSoftDisks(gen);
 
@@ -278,18 +251,15 @@ public class ModBiomes {
                 .waterFogColor(0x3333CC)
                 .fogColor(0x000022)
                 .skyColor(0x000044)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.FALLING_DUST, 0.01f))
+                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.END_ROD, 0.01f))
                 .build())
             .mobSpawnSettings(spawns.build())
             .generationSettings(gen.build())
             .build();
     }
 
-    public static Biome volcanicBadlands() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome volcanicBadlands(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
         BiomeDefaultFeatures.addDefaultOres(gen);
 
         MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
@@ -312,11 +282,8 @@ public class ModBiomes {
             .build();
     }
 
-    public static Biome ancientGrove() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome ancientGrove(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
         BiomeDefaultFeatures.addDefaultOres(gen);
         BiomeDefaultFeatures.addDefaultSoftDisks(gen);
         BiomeDefaultFeatures.addDefaultMushrooms(gen);
@@ -333,18 +300,15 @@ public class ModBiomes {
                 .waterFogColor(0x338866)
                 .fogColor(0x224433)
                 .skyColor(0x336655)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.SPORE_BLOSSOM, 0.02f))
+                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.ENCHANT, 0.02f))
                 .build())
             .mobSpawnSettings(spawns.build())
             .generationSettings(gen.build())
             .build();
     }
 
-    public static Biome corruptedReaches() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
+    public static Biome corruptedReaches(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(placedFeatures, carvers);
         BiomeDefaultFeatures.addDefaultOres(gen);
 
         MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
