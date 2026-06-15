@@ -27,7 +27,7 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@6cfc8b8e8bb586cc164bef1c478c1eea3a4d6a19 # v3
       with:
-        gradle-version: '8.5'
+        gradle-version: '8.12'
 
     - name: Build mod
       run: gradle build
