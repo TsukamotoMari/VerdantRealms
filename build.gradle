@@ -99,7 +99,6 @@ tasks.withType(JavaCompile).configureEach {
 
 idea {
     module {
-        downloadSources = true
-        downloadJavadocs = true
+        isDownloadSources = true
     }
 }
