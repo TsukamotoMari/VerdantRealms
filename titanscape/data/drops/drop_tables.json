@@ -1,0 +1,28 @@
+{
+  "10001": [
+    {"itemId": 20001, "minAmount": 1, "maxAmount": 1, "chance": 0.01, "rarity": "legendary"},
+    {"itemId": 20005, "minAmount": 1, "maxAmount": 1, "chance": 0.04, "rarity": "rare"},
+    {"itemId": 20010, "minAmount": 3, "maxAmount": 8, "chance": 0.15, "rarity": "uncommon"},
+    {"itemId": 995, "minAmount": 500000, "maxAmount": 1000000, "chance": 1.0, "rarity": "common"}
+  ],
+  "10002": [
+    {"itemId": 20002, "minAmount": 1, "maxAmount": 1, "chance": 0.01, "rarity": "legendary"},
+    {"itemId": 20006, "minAmount": 1, "maxAmount": 1, "chance": 0.04, "rarity": "rare"},
+    {"itemId": 20015, "minAmount": 1, "maxAmount": 1, "chance": 0.08, "rarity": "rare"},
+    {"itemId": 20011, "minAmount": 2, "maxAmount": 5, "chance": 0.20, "rarity": "uncommon"},
+    {"itemId": 995, "minAmount": 300000, "maxAmount": 700000, "chance": 1.0, "rarity": "common"}
+  ],
+  "10003": [
+    {"itemId": 20003, "minAmount": 1, "maxAmount": 1, "chance": 0.008, "rarity": "legendary"},
+    {"itemId": 20007, "minAmount": 1, "maxAmount": 1, "chance": 0.03, "rarity": "legendary"},
+    {"itemId": 20008, "minAmount": 1, "maxAmount": 1, "chance": 0.10, "rarity": "uncommon"},
+    {"itemId": 20016, "minAmount": 1, "maxAmount": 1, "chance": 0.05, "rarity": "rare"},
+    {"itemId": 995, "minAmount": 400000, "maxAmount": 800000, "chance": 1.0, "rarity": "common"}
+  ],
+  "10004": [
+    {"itemId": 20004, "minAmount": 1, "maxAmount": 1, "chance": 0.01, "rarity": "legendary"},
+    {"itemId": 20009, "minAmount": 1, "maxAmount": 3, "chance": 0.04, "rarity": "rare"},
+    {"itemId": 20012, "minAmount": 1, "maxAmount": 2, "chance": 0.15, "rarity": "uncommon"},
+    {"itemId": 995, "minAmount": 350000, "maxAmount": 700000, "chance": 1.0, "rarity": "common"}
+  ]
+}
