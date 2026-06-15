@@ -24,14 +24,13 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Validate Gradle wrapper
-      uses: gradle/actions/wrapper-validation@6cfc8b8e8bb586cc164bef1c478c1eea3a4d6a19 # v3
-
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@6cfc8b8e8bb586cc164bef1c478c1eea3a4d6a19 # v3
+      with:
+        gradle-version: '8.5'
 
     - name: Build mod
-      run: ./gradlew build
+      run: gradle build
 
     - name: Upload build artifacts
       if: github.event_name != 'pull_request'
