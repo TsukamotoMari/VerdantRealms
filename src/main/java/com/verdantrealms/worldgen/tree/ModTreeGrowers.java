@@ -1,47 +1,25 @@
 package com.verdantrealms.worldgen.tree;
 
 import com.verdantrealms.VerdantRealms;
-import net.minecraft.resources.ResourceLocation;
+import com.verdantrealms.util.RegistryHelper;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.grower.TreeGrower;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 import java.util.Optional;
 
 public class ModTreeGrowers {
-    public static final TreeGrower ELDERWOOD = new TreeGrower(
-        "elderwood",
-        Optional.empty(),
-        Optional.of(ResourceLocation.fromNamespaceAndPath(VerdantRealms.MOD_ID, "elderwood")),
-        Optional.empty()
-    );
+    public static final TreeGrower ELDERWOOD = createGrower("elderwood");
+    public static final TreeGrower STARWOOD = createGrower("starwood");
+    public static final TreeGrower ASHENWOOD = createGrower("ashenwood");
+    public static final TreeGrower CHERRY_BLOSSOM = createGrower("cherry_blossom");
+    public static final TreeGrower TREE_OF_LIFE = createGrower("tree_of_life");
 
-    public static final TreeGrower STARWOOD = new TreeGrower(
-        "starwood",
-        Optional.empty(),
-        Optional.of(ResourceLocation.fromNamespaceAndPath(VerdantRealms.MOD_ID, "starwood")),
-        Optional.empty()
-    );
-
-    public static final TreeGrower ASHENWOOD = new TreeGrower(
-        "ashenwood",
-        Optional.empty(),
-        Optional.of(ResourceLocation.fromNamespaceAndPath(VerdantRealms.MOD_ID, "ashenwood")),
-        Optional.empty()
-    );
-
-    public static final TreeGrower CHERRY_BLOSSOM = new TreeGrower(
-        "cherry_blossom",
-        Optional.empty(),
-        Optional.of(ResourceLocation.fromNamespaceAndPath(VerdantRealms.MOD_ID, "cherry_blossom")),
-        Optional.empty()
-    );
-
-    // Ultra-rare Tree of Life - 0.5% chance
-    public static final TreeGrower TREE_OF_LIFE = new TreeGrower(
-        "tree_of_life",
-        Optional.empty(),
-        Optional.of(ResourceLocation.fromNamespaceAndPath(VerdantRealms.MOD_ID, "tree_of_life")),
-        Optional.empty()
-    );
+    private static TreeGrower createGrower(String name) {
+        ResourceKey<ConfiguredFeature<?, ?>> featureKey = RegistryHelper.key(Registries.CONFIGURED_FEATURE, name);
+        return new TreeGrower(name, Optional.empty(), Optional.of(featureKey), Optional.empty());
+    }
 
     public static void register() {
         VerdantRealms.LOGGER.info("Tree growers registered");

@@ -1,371 +1,167 @@
 package com.verdantrealms.biome;
 
 import com.verdantrealms.VerdantRealms;
+import com.verdantrealms.util.BiomeFactory;
+import com.verdantrealms.util.BiomeFactory.GenerationFeature;
+import com.verdantrealms.util.RegistryHelper;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BiomeDefaultFeatures;
-import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.biome.*;
-import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class ModBiomes {
     // 12 Custom Biomes
-    public static final ResourceKey<Biome> CRYSTAL_CAVERNS = register("crystal_caverns");
-    public static final ResourceKey<Biome> ETHEREAL_GROVE = register("ethereal_grove");
-    public static final ResourceKey<Biome> EMBER_WASTES = register("ember_wastes");
-    public static final ResourceKey<Biome> FROSTFELL_PEAKS = register("frostfell_peaks");
-    public static final ResourceKey<Biome> SKYWARD_ISLES = register("skyward_isles");
-    public static final ResourceKey<Biome> VERDANT_JUNGLE = register("verdant_jungle");
-    public static final ResourceKey<Biome> BLOSSOM_VALLEY = register("blossom_valley");
-    public static final ResourceKey<Biome> SHADOWMIRE = register("shadowmire");
-    public static final ResourceKey<Biome> STARFALL_PLAINS = register("starfall_plains");
-    public static final ResourceKey<Biome> VOLCANIC_BADLANDS = register("volcanic_badlands");
-    public static final ResourceKey<Biome> ANCIENT_GROVE = register("ancient_grove");
-    public static final ResourceKey<Biome> CORRUPTED_REACHES = register("corrupted_reaches");
-
-    private static ResourceKey<Biome> register(String name) {
-        return ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(VerdantRealms.MOD_ID, name));
-    }
+    public static final ResourceKey<Biome> CRYSTAL_CAVERNS = RegistryHelper.key(Registries.BIOME, "crystal_caverns");
+    public static final ResourceKey<Biome> ETHEREAL_GROVE = RegistryHelper.key(Registries.BIOME, "ethereal_grove");
+    public static final ResourceKey<Biome> EMBER_WASTES = RegistryHelper.key(Registries.BIOME, "ember_wastes");
+    public static final ResourceKey<Biome> FROSTFELL_PEAKS = RegistryHelper.key(Registries.BIOME, "frostfell_peaks");
+    public static final ResourceKey<Biome> SKYWARD_ISLES = RegistryHelper.key(Registries.BIOME, "skyward_isles");
+    public static final ResourceKey<Biome> VERDANT_JUNGLE = RegistryHelper.key(Registries.BIOME, "verdant_jungle");
+    public static final ResourceKey<Biome> BLOSSOM_VALLEY = RegistryHelper.key(Registries.BIOME, "blossom_valley");
+    public static final ResourceKey<Biome> SHADOWMIRE = RegistryHelper.key(Registries.BIOME, "shadowmire");
+    public static final ResourceKey<Biome> STARFALL_PLAINS = RegistryHelper.key(Registries.BIOME, "starfall_plains");
+    public static final ResourceKey<Biome> VOLCANIC_BADLANDS = RegistryHelper.key(Registries.BIOME, "volcanic_badlands");
+    public static final ResourceKey<Biome> ANCIENT_GROVE = RegistryHelper.key(Registries.BIOME, "ancient_grove");
+    public static final ResourceKey<Biome> CORRUPTED_REACHES = RegistryHelper.key(Registries.BIOME, "corrupted_reaches");
 
     public static void registerBiomes() {
         VerdantRealms.LOGGER.info("Registering VerdantRealms biomes...");
     }
 
+    private static BiomeFactory.Builder base(HolderGetter<PlacedFeature> placed,
+                                             HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return BiomeFactory.builder(placed, carvers);
+    }
+
     // Biome Builders
-    public static Biome crystalCaverns() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.commonSpawns(spawns);
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(false)
-            .temperature(0.5f)
-            .downfall(0.0f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0x9966FF)
-                .waterFogColor(0x7744CC)
-                .fogColor(0x110033)
-                .skyColor(0x110033)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.WITCH, 0.02f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome crystalCaverns(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(false).temperature(0.5f).downfall(0.0f)
+            .colors(0x9966FF, 0x7744CC, 0x110033, 0x110033)
+            .ambientParticle(ParticleTypes.WITCH, 0.02f)
+            .commonSpawns()
             .build();
     }
 
-    public static Biome etherealGrove() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-        BiomeDefaultFeatures.addDefaultOres(gen);
-        BiomeDefaultFeatures.addDefaultSoftDisks(gen);
-        BiomeDefaultFeatures.addDefaultMushrooms(gen);
-        BiomeDefaultFeatures.addDefaultExtraVegetation(gen);
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.commonSpawns(spawns);
-        BiomeDefaultFeatures.farmAnimals(spawns);
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(true)
-            .temperature(0.8f)
-            .downfall(0.4f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0x44FFAA)
-                .waterFogColor(0x22CC88)
-                .fogColor(0xCCFFEE)
-                .skyColor(0x88FFCC)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.HAPPY_VILLAGER, 0.01f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome etherealGrove(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(true).temperature(0.8f).downfall(0.4f)
+            .colors(0x44FFAA, 0x22CC88, 0xCCFFEE, 0x88FFCC)
+            .ambientParticle(ParticleTypes.HAPPY_VILLAGER, 0.01f)
+            .features(GenerationFeature.DEFAULT_ORES, GenerationFeature.DEFAULT_SOFT_DISKS,
+                      GenerationFeature.DEFAULT_MUSHROOMS, GenerationFeature.DEFAULT_EXTRA_VEGETATION)
+            .commonSpawns().farmAnimals()
             .build();
     }
 
-    public static Biome emberWastes() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-        BiomeDefaultFeatures.addDefaultOres(gen);
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        spawns.addSpawn(net.minecraft.world.entity.MobCategory.MONSTER, 
-            new MobSpawnSettings.SpawnerData(net.minecraft.world.entity.EntityType.BLAZE, 50, 2, 4));
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(false)
-            .temperature(2.0f)
-            .downfall(0.0f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0xFF4400)
-                .waterFogColor(0xCC3300)
-                .fogColor(0x331100)
-                .skyColor(0xFF6633)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.FLAME, 0.05f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome emberWastes(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(false).temperature(2.0f).downfall(0.0f)
+            .colors(0xFF4400, 0xCC3300, 0x331100, 0xFF6633)
+            .ambientParticle(ParticleTypes.FLAME, 0.05f)
+            .features(GenerationFeature.DEFAULT_ORES)
+            .spawn(MobCategory.MONSTER, EntityType.BLAZE, 50, 2, 4)
             .build();
     }
 
-    public static Biome frostfellPeaks() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-        BiomeDefaultFeatures.addDefaultOres(gen);
-        BiomeDefaultFeatures.addDefaultSoftDisks(gen);
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.commonSpawns(spawns);
-        spawns.addSpawn(net.minecraft.world.entity.MobCategory.CREATURE,
-            new MobSpawnSettings.SpawnerData(net.minecraft.world.entity.EntityType.POLAR_BEAR, 5, 1, 2));
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(true)
-            .temperature(-0.8f)
-            .downfall(0.9f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0xAADDFF)
-                .waterFogColor(0x88BBDD)
-                .fogColor(0xDDEEFF)
-                .skyColor(0xAACCFF)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.SNOWFLAKE, 0.03f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome frostfellPeaks(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(true).temperature(-0.8f).downfall(0.9f)
+            .colors(0xAADDFF, 0x88BBDD, 0xDDEEFF, 0xAACCFF)
+            .ambientParticle(ParticleTypes.SNOWFLAKE, 0.03f)
+            .features(GenerationFeature.DEFAULT_ORES, GenerationFeature.DEFAULT_SOFT_DISKS)
+            .commonSpawns()
+            .spawn(MobCategory.CREATURE, EntityType.POLAR_BEAR, 5, 1, 2)
             .build();
     }
 
-    public static Biome skywardIsles() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.commonSpawns(spawns);
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(false)
-            .temperature(0.6f)
-            .downfall(0.0f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0x66FFFF)
-                .waterFogColor(0x44CCCC)
-                .fogColor(0x88CCFF)
-                .skyColor(0x4488FF)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.END_ROD, 0.02f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome skywardIsles(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(false).temperature(0.6f).downfall(0.0f)
+            .colors(0x66FFFF, 0x44CCCC, 0x88CCFF, 0x4488FF)
+            .ambientParticle(ParticleTypes.END_ROD, 0.02f)
+            .commonSpawns()
             .build();
     }
 
-    public static Biome verdantJungle() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-        BiomeDefaultFeatures.addDefaultOres(gen);
-        BiomeDefaultFeatures.addJungleTrees(gen);
-        BiomeDefaultFeatures.addDefaultExtraVegetation(gen);
-        BiomeDefaultFeatures.addJungleExtraVegetation(gen);
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.commonSpawns(spawns);
-        BiomeDefaultFeatures.farmAnimals(spawns);
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(true)
-            .temperature(0.95f)
-            .downfall(0.8f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0x44FF88)
-                .waterFogColor(0x22CC66)
-                .fogColor(0x113322)
-                .skyColor(0x44AA66)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.HAPPY_VILLAGER, 0.015f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome verdantJungle(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(true).temperature(0.95f).downfall(0.8f)
+            .colors(0x44FF88, 0x22CC66, 0x113322, 0x44AA66)
+            .ambientParticle(ParticleTypes.HAPPY_VILLAGER, 0.015f)
+            .features(GenerationFeature.DEFAULT_ORES, GenerationFeature.DEFAULT_EXTRA_VEGETATION,
+                      GenerationFeature.JUNGLE_TREES, GenerationFeature.JUNGLE_MELONS,
+                      GenerationFeature.JUNGLE_VINES)
+            .commonSpawns().farmAnimals()
             .build();
     }
 
-    public static Biome blossomValley() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-        BiomeDefaultFeatures.addDefaultOres(gen);
-        BiomeDefaultFeatures.addDefaultSoftDisks(gen);
-        BiomeDefaultFeatures.addDefaultMushrooms(gen);
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.commonSpawns(spawns);
-        BiomeDefaultFeatures.farmAnimals(spawns);
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(true)
-            .temperature(0.7f)
-            .downfall(0.5f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0xFF88CC)
-                .waterFogColor(0xDD66AA)
-                .fogColor(0xFFEEF5)
-                .skyColor(0xFFCCDD)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.CHERRY_LEAVES, 0.03f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome blossomValley(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(true).temperature(0.7f).downfall(0.5f)
+            .colors(0xFF88CC, 0xDD66AA, 0xFFEEF5, 0xFFCCDD)
+            .ambientParticle(ParticleTypes.CHERRY_LEAVES, 0.03f)
+            .features(GenerationFeature.DEFAULT_ORES, GenerationFeature.DEFAULT_SOFT_DISKS,
+                      GenerationFeature.DEFAULT_MUSHROOMS)
+            .commonSpawns().farmAnimals()
             .build();
     }
 
-    public static Biome shadowmire() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-        BiomeDefaultFeatures.addDefaultOres(gen);
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        spawns.addSpawn(net.minecraft.world.entity.MobCategory.MONSTER,
-            new MobSpawnSettings.SpawnerData(net.minecraft.world.entity.EntityType.WITCH, 30, 1, 2));
-        spawns.addSpawn(net.minecraft.world.entity.MobCategory.MONSTER,
-            new MobSpawnSettings.SpawnerData(net.minecraft.world.entity.EntityType.SLIME, 50, 2, 4));
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(true)
-            .temperature(0.5f)
-            .downfall(0.9f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0x224422)
-                .waterFogColor(0x113311)
-                .fogColor(0x051105)
-                .skyColor(0x112211)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.MYCELIUM, 0.04f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome shadowmire(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(true).temperature(0.5f).downfall(0.9f)
+            .colors(0x224422, 0x113311, 0x051105, 0x112211)
+            .ambientParticle(ParticleTypes.MYCELIUM, 0.04f)
+            .features(GenerationFeature.DEFAULT_ORES)
+            .spawn(MobCategory.MONSTER, EntityType.WITCH, 30, 1, 2)
+            .spawn(MobCategory.MONSTER, EntityType.SLIME, 50, 2, 4)
             .build();
     }
 
-    public static Biome starfallPlains() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-        BiomeDefaultFeatures.addDefaultOres(gen);
-        BiomeDefaultFeatures.addDefaultSoftDisks(gen);
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.commonSpawns(spawns);
-        BiomeDefaultFeatures.farmAnimals(spawns);
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(false)
-            .temperature(0.4f)
-            .downfall(0.0f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0x4444FF)
-                .waterFogColor(0x3333CC)
-                .fogColor(0x000022)
-                .skyColor(0x000044)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.FALLING_DUST, 0.01f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome starfallPlains(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(false).temperature(0.4f).downfall(0.0f)
+            .colors(0x4444FF, 0x3333CC, 0x000022, 0x000044)
+            .ambientParticle(ParticleTypes.END_ROD, 0.01f)
+            .features(GenerationFeature.DEFAULT_ORES, GenerationFeature.DEFAULT_SOFT_DISKS)
+            .commonSpawns().farmAnimals()
             .build();
     }
 
-    public static Biome volcanicBadlands() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-        BiomeDefaultFeatures.addDefaultOres(gen);
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        spawns.addSpawn(net.minecraft.world.entity.MobCategory.MONSTER,
-            new MobSpawnSettings.SpawnerData(net.minecraft.world.entity.EntityType.MAGMA_CUBE, 40, 2, 4));
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(false)
-            .temperature(1.5f)
-            .downfall(0.0f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0xFF2200)
-                .waterFogColor(0xCC1100)
-                .fogColor(0x331100)
-                .skyColor(0xFF4422)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.LAVA, 0.03f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome volcanicBadlands(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(false).temperature(1.5f).downfall(0.0f)
+            .colors(0xFF2200, 0xCC1100, 0x331100, 0xFF4422)
+            .ambientParticle(ParticleTypes.LAVA, 0.03f)
+            .features(GenerationFeature.DEFAULT_ORES)
+            .spawn(MobCategory.MONSTER, EntityType.MAGMA_CUBE, 40, 2, 4)
             .build();
     }
 
-    public static Biome ancientGrove() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-        BiomeDefaultFeatures.addDefaultOres(gen);
-        BiomeDefaultFeatures.addDefaultSoftDisks(gen);
-        BiomeDefaultFeatures.addDefaultMushrooms(gen);
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        BiomeDefaultFeatures.commonSpawns(spawns);
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(true)
-            .temperature(0.6f)
-            .downfall(0.6f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0x44AA88)
-                .waterFogColor(0x338866)
-                .fogColor(0x224433)
-                .skyColor(0x336655)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.SPORE_BLOSSOM, 0.02f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome ancientGrove(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(true).temperature(0.6f).downfall(0.6f)
+            .colors(0x44AA88, 0x338866, 0x224433, 0x336655)
+            .ambientParticle(ParticleTypes.SPORE_BLOSSOM_AIR, 0.02f)
+            .features(GenerationFeature.DEFAULT_ORES, GenerationFeature.DEFAULT_SOFT_DISKS,
+                      GenerationFeature.DEFAULT_MUSHROOMS)
+            .commonSpawns()
             .build();
     }
 
-    public static Biome corruptedReaches() {
-        BiomeGenerationSettings.Builder gen = new BiomeGenerationSettings.Builder(
-            net.minecraft.world.level.levelgen.placement.PlacementUtils.EMPTY,
-            net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarvers.CAVE
-        );
-        BiomeDefaultFeatures.addDefaultOres(gen);
-
-        MobSpawnSettings.Builder spawns = new MobSpawnSettings.Builder();
-        spawns.addSpawn(net.minecraft.world.entity.MobCategory.MONSTER,
-            new MobSpawnSettings.SpawnerData(net.minecraft.world.entity.EntityType.ENDERMAN, 30, 1, 3));
-        spawns.addSpawn(net.minecraft.world.entity.MobCategory.MONSTER,
-            new MobSpawnSettings.SpawnerData(net.minecraft.world.entity.EntityType.PHANTOM, 20, 1, 2));
-
-        return new Biome.BiomeBuilder()
-            .hasPrecipitation(false)
-            .temperature(0.8f)
-            .downfall(0.0f)
-            .specialEffects(new BiomeSpecialEffects.Builder()
-                .waterColor(0x440044)
-                .waterFogColor(0x220022)
-                .fogColor(0x110011)
-                .skyColor(0x220033)
-                .ambientParticle(new AmbientParticleSettings(net.minecraft.core.particles.ParticleTypes.DRAGON_BREATH, 0.03f))
-                .build())
-            .mobSpawnSettings(spawns.build())
-            .generationSettings(gen.build())
+    public static Biome corruptedReaches(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return base(placed, carvers)
+            .precipitation(false).temperature(0.8f).downfall(0.0f)
+            .colors(0x440044, 0x220022, 0x110011, 0x220033)
+            .ambientParticle(ParticleTypes.DRAGON_BREATH, 0.03f)
+            .features(GenerationFeature.DEFAULT_ORES)
+            .spawn(MobCategory.MONSTER, EntityType.ENDERMAN, 30, 1, 3)
+            .spawn(MobCategory.MONSTER, EntityType.PHANTOM, 20, 1, 2)
             .build();
     }
 }

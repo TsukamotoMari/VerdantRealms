@@ -2,12 +2,14 @@ package com.verdantrealms.worldgen.feature;
 
 import com.verdantrealms.VerdantRealms;
 import com.verdantrealms.block.ModBlocks;
+import com.verdantrealms.util.RegistryHelper;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -16,6 +18,7 @@ import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSi
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.CherryFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.DarkOakFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.MegaPineFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.*;
@@ -34,8 +37,8 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> FROST_SPIRE = registerKey("frost_spire");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ANCIENT_RUINS = registerKey("ancient_ruins");
 
-    public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
-        return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(VerdantRealms.MOD_ID, name));
+    private static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
+        return RegistryHelper.key(Registries.CONFIGURED_FEATURE, name);
     }
 
     public static void register() {
@@ -43,49 +46,45 @@ public class ModConfiguredFeatures {
     }
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-        // Elderwood - Tall mystical tree with glowing leaves
-        FeatureUtils.register(context, ELDERWOOD_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-            BlockStateProvider.simple(ModBlocks.ELDERWOOD_LOG.get()),
-            new FancyTrunkPlacer(8, 12, 5),
-            BlockStateProvider.simple(ModBlocks.ELDERWOOD_LEAVES.get()),
-            new BlobFoliagePlacer(ConstantInt.of(4), ConstantInt.of(2), 4),
-            new TwoLayersFeatureSize(2, 0, 2)
-        ).build());
+        registerTree(context, ELDERWOOD_TREE,
+            ModBlocks.ELDERWOOD_LOG.get(), new FancyTrunkPlacer(8, 12, 5),
+            ModBlocks.ELDERWOOD_LEAVES.get(), new BlobFoliagePlacer(ConstantInt.of(4), ConstantInt.of(2), 4),
+            new TwoLayersFeatureSize(2, 0, 2));
 
-        // Starwood - Dark tree with star-like leaves
-        FeatureUtils.register(context, STARWOOD_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-            BlockStateProvider.simple(ModBlocks.STARWOOD_LOG.get()),
-            new DarkOakTrunkPlacer(10, 6, 8),
-            BlockStateProvider.simple(ModBlocks.STARWOOD_LEAVES.get()),
-            new DarkOakFoliagePlacer(ConstantInt.of(3), ConstantInt.of(1)),
-            new TwoLayersFeatureSize(2, 0, 2)
-        ).build());
+        registerTree(context, STARWOOD_TREE,
+            ModBlocks.STARWOOD_LOG.get(), new DarkOakTrunkPlacer(10, 6, 8),
+            ModBlocks.STARWOOD_LEAVES.get(), new DarkOakFoliagePlacer(ConstantInt.of(3), ConstantInt.of(1)),
+            new TwoLayersFeatureSize(2, 0, 2));
 
-        // Ashenwood - Burnt-looking tree for volcanic biomes
-        FeatureUtils.register(context, ASHENWOOD_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-            BlockStateProvider.simple(ModBlocks.ASHENWOOD_LOG.get()),
-            new StraightTrunkPlacer(6, 3, 2),
-            BlockStateProvider.simple(ModBlocks.ASHENWOOD_LEAVES.get()),
-            new MegaPineFoliagePlacer(ConstantInt.of(2), ConstantInt.of(1), ConstantInt.of(4)),
-            new TwoLayersFeatureSize(2, 0, 2)
-        ).build());
+        registerTree(context, ASHENWOOD_TREE,
+            ModBlocks.ASHENWOOD_LOG.get(), new StraightTrunkPlacer(6, 3, 2),
+            ModBlocks.ASHENWOOD_LEAVES.get(), new MegaPineFoliagePlacer(ConstantInt.of(2), ConstantInt.of(1), ConstantInt.of(4)),
+            new TwoLayersFeatureSize(2, 0, 2));
 
-        // Cherry Blossom - Beautiful pink tree
-        FeatureUtils.register(context, CHERRY_BLOSSOM_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-            BlockStateProvider.simple(Blocks.CHERRY_LOG),
-            new CherryTrunkPlacer(7, 3, 2, new java.util.HashMap<>(), ConstantInt.of(2)),
-            BlockStateProvider.simple(ModBlocks.CHERRY_BLOSSOM_LEAVES.get()),
-            new CherryFoliagePlacer(ConstantInt.of(5), ConstantInt.of(0), ConstantInt.of(5), 0.25f, 0.5f, 0.16666667f, 0.33333334f),
-            new TwoLayersFeatureSize(2, 0, 2)
-        ).build());
+        registerTree(context, CHERRY_BLOSSOM_TREE,
+            Blocks.CHERRY_LOG, new CherryTrunkPlacer(7, 3, 2,
+                ConstantInt.of(3), ConstantInt.of(2), UniformInt.of(-4, -3), ConstantInt.of(2)),
+            ModBlocks.CHERRY_BLOSSOM_LEAVES.get(), new CherryFoliagePlacer(ConstantInt.of(5), ConstantInt.of(0), ConstantInt.of(5), 0.25f, 0.5f, 0.16666667f, 0.33333334f),
+            new TwoLayersFeatureSize(2, 0, 2));
 
-        // TREE OF LIFE - Ultra rare giant tree
-        FeatureUtils.register(context, TREE_OF_LIFE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-            BlockStateProvider.simple(ModBlocks.ELDERWOOD_LOG.get()),
-            new GiantTrunkPlacer(25, 10, 15), // Massive trunk
-            BlockStateProvider.simple(ModBlocks.MOONSTONE_BLOCK.get()), // Glowing leaves
-            new BlobFoliagePlacer(ConstantInt.of(8), ConstantInt.of(4), 10), // Huge canopy
-            new TwoLayersFeatureSize(4, 0, 4)
+        registerTree(context, TREE_OF_LIFE,
+            ModBlocks.ELDERWOOD_LOG.get(), new GiantTrunkPlacer(25, 10, 15),
+            ModBlocks.MOONSTONE_BLOCK.get(), new BlobFoliagePlacer(ConstantInt.of(8), ConstantInt.of(4), 10),
+            new TwoLayersFeatureSize(4, 0, 4));
+    }
+
+    private static void registerTree(
+            BootstrapContext<ConfiguredFeature<?, ?>> context,
+            ResourceKey<ConfiguredFeature<?, ?>> key,
+            Block logBlock, TrunkPlacer trunkPlacer,
+            Block leavesBlock, FoliagePlacer foliagePlacer,
+            TwoLayersFeatureSize featureSize) {
+        FeatureUtils.register(context, key, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
+            BlockStateProvider.simple(logBlock),
+            trunkPlacer,
+            BlockStateProvider.simple(leavesBlock),
+            foliagePlacer,
+            featureSize
         ).build());
     }
 }
