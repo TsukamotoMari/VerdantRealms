@@ -1,0 +1,100 @@
+[
+  {
+    "id": "lumbridge",
+    "name": "Lumbridge",
+    "description": "The starting town. A safe haven for new adventurers.",
+    "minX": 3200, "minY": 3200, "maxX": 3250, "maxY": 3250,
+    "level": 0,
+    "multiCombat": false,
+    "pvpEnabled": false,
+    "safeZone": true,
+    "teleportCommand": "home",
+    "teleportX": 3222, "teleportY": 3218, "teleportZ": 0,
+    "npcSpawns": [
+      {"npcId": 2, "x": 3225, "y": 3220, "z": 0},
+      {"npcId": 200, "x": 3218, "y": 3215, "z": 0},
+      {"npcId": 201, "x": 3230, "y": 3225, "z": 0}
+    ]
+  },
+  {
+    "id": "titan_fortress",
+    "name": "Titan Fortress",
+    "description": "The lair of the Titan Lord. Only the strongest dare enter.",
+    "minX": 2480, "minY": 4480, "maxX": 2520, "maxY": 4520,
+    "level": 100,
+    "multiCombat": true,
+    "pvpEnabled": false,
+    "safeZone": false,
+    "teleportCommand": "titan",
+    "teleportX": 2500, "teleportY": 4500, "teleportZ": 0,
+    "npcSpawns": [
+      {"npcId": 100, "x": 2495, "y": 4490, "z": 0},
+      {"npcId": 100, "x": 2505, "y": 4510, "z": 0},
+      {"npcId": 100, "x": 2510, "y": 4495, "z": 0}
+    ]
+  },
+  {
+    "id": "void_realm",
+    "name": "Void Realm",
+    "description": "A dimension between worlds. Home of the Void Reaper.",
+    "minX": 3480, "minY": 4980, "maxX": 3520, "maxY": 5020,
+    "level": 80,
+    "multiCombat": true,
+    "pvpEnabled": false,
+    "safeZone": false,
+    "teleportCommand": "void",
+    "teleportX": 3500, "teleportY": 5000, "teleportZ": 0,
+    "npcSpawns": [
+      {"npcId": 101, "x": 3490, "y": 4990, "z": 0},
+      {"npcId": 101, "x": 3510, "y": 5010, "z": 0}
+    ]
+  },
+  {
+    "id": "molten_caverns",
+    "name": "Molten Caverns",
+    "description": "Deep underground caverns filled with lava. The Inferno Dragon lurks within.",
+    "minX": 2980, "minY": 5480, "maxX": 3020, "maxY": 5520,
+    "level": 90,
+    "multiCombat": true,
+    "pvpEnabled": false,
+    "safeZone": false,
+    "teleportCommand": "molten",
+    "teleportX": 3000, "teleportY": 5500, "teleportZ": 0,
+    "npcSpawns": [
+      {"npcId": 102, "x": 2990, "y": 5490, "z": 0},
+      {"npcId": 102, "x": 3010, "y": 5510, "z": 0},
+      {"npcId": 102, "x": 2985, "y": 5505, "z": 0}
+    ]
+  },
+  {
+    "id": "crystal_caverns",
+    "name": "Crystal Caverns",
+    "description": "A magnificent underground cave system made of living crystal. Guarded by the Crystal Golem.",
+    "minX": 2780, "minY": 3980, "maxX": 2820, "maxY": 4020,
+    "level": 95,
+    "multiCombat": true,
+    "pvpEnabled": false,
+    "safeZone": false,
+    "teleportCommand": "crystal",
+    "teleportX": 2800, "teleportY": 4000, "teleportZ": 0,
+    "npcSpawns": [
+      {"npcId": 103, "x": 2790, "y": 3990, "z": 0},
+      {"npcId": 103, "x": 2810, "y": 4010, "z": 0}
+    ]
+  },
+  {
+    "id": "titan_arena",
+    "name": "Titan Arena",
+    "description": "A combat arena for wave-based survival. Great rewards for the strong.",
+    "minX": 2980, "minY": 2980, "maxX": 3020, "maxY": 3020,
+    "level": 50,
+    "multiCombat": true,
+    "pvpEnabled": false,
+    "safeZone": false,
+    "teleportCommand": "arena",
+    "teleportX": 3000, "teleportY": 3000, "teleportZ": 0,
+    "npcSpawns": [
+      {"npcId": 202, "x": 2998, "y": 2998, "z": 0}
+    ]
+  }
+]
