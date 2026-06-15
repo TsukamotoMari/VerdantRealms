@@ -1,0 +1,73 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.titanscape'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.netty:netty-all:4.1.100.Final'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.apache.logging.log4j:log4j-api:2.22.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.22.0'
+    implementation 'com.google.guava:guava:32.1.3-jre'
+}
+
+application {
+    mainClass = 'com.titanscape.server.TitanScape'
+}
+
+// Fat JAR for the server
+tasks.register('serverJar', Jar) {
+    archiveClassifier = 'server'
+    manifest {
+        attributes 'Main-Class': 'com.titanscape.server.TitanScape'
+    }
+    from sourceSets.main.output
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Fat JAR for the client
+tasks.register('clientJar', Jar) {
+    archiveClassifier = 'client'
+    manifest {
+        attributes 'Main-Class': 'com.titanscape.client.TitanClient'
+    }
+    from sourceSets.main.output
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Build both JARs
+tasks.register('buildAll') {
+    dependsOn serverJar, clientJar
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.titanscape.server.TitanScape'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
