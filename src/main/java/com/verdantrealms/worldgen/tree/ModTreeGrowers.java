@@ -44,6 +44,9 @@ public class ModTreeGrowers {
     );
 
     public static void register() {
-        VerdantRealms.LOGGER.info("Tree growers registered");
+        if (ELDERWOOD == null || TREE_OF_LIFE == null) {
+            throw new IllegalStateException("VerdantRealms tree growers failed to initialize");
+        }
+        VerdantRealms.LOGGER.info("VerdantRealms tree growers initialized");
     }
 }

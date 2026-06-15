@@ -29,7 +29,10 @@ public class ModBiomes {
     }
 
     public static void registerBiomes() {
-        VerdantRealms.LOGGER.info("Registering VerdantRealms biomes...");
+        VerdantRealms.LOGGER.info("Initializing VerdantRealms biome definitions (registration handled via data-driven bootstrap)");
+        if (CRYSTAL_CAVERNS == null || CORRUPTED_REACHES == null) {
+            throw new IllegalStateException("VerdantRealms biome resource keys failed to initialize");
+        }
     }
 
     // Biome Builders

@@ -19,10 +19,15 @@ public class VerdantRealms {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public VerdantRealms(IEventBus modEventBus) {
-        ModBlocks.BLOCKS.register(modEventBus);
-        ModItems.ITEMS.register(modEventBus);
-        ModParticles.PARTICLE_TYPES.register(modEventBus);
-        ModTreeGrowers.register();
+        try {
+            ModBlocks.BLOCKS.register(modEventBus);
+            ModItems.ITEMS.register(modEventBus);
+            ModParticles.PARTICLE_TYPES.register(modEventBus);
+            ModTreeGrowers.register();
+        } catch (Exception e) {
+            LOGGER.error("Failed to register VerdantRealms mod components", e);
+            throw e;
+        }
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
@@ -31,12 +36,26 @@ public class VerdantRealms {
     private void commonSetup(final FMLCommonSetupEvent event) {
         LOGGER.info("VerdantRealms world generation initializing...");
         event.enqueueWork(() -> {
-            ModBiomes.registerBiomes();
-            ModConfiguredFeatures.register();
+            try {
+                ModBiomes.registerBiomes();
+                ModConfiguredFeatures.register();
+            } catch (Exception e) {
+                LOGGER.error("Failed during VerdantRealms common setup", e);
+                throw new RuntimeException("VerdantRealms common setup failed", e);
+            }
+        }).exceptionally(e -> {
+            LOGGER.error("VerdantRealms enqueued work failed", e);
+            throw new RuntimeException("VerdantRealms deferred initialization failed", e);
         });
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
         LOGGER.info("VerdantRealms client effects loading...");
+        event.enqueueWork(() -> {
+            LOGGER.info("VerdantRealms client setup complete");
+        }).exceptionally(e -> {
+            LOGGER.error("VerdantRealms client setup failed", e);
+            throw new RuntimeException("VerdantRealms client setup failed", e);
+        });
     }
 }

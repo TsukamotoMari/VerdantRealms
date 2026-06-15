@@ -39,11 +39,27 @@ public class ModConfiguredFeatures {
     }
 
     public static void register() {
-        VerdantRealms.LOGGER.info("Configured features registered");
+        VerdantRealms.LOGGER.info("Initializing VerdantRealms configured feature keys (registration handled via data-driven bootstrap)");
+        if (ELDERWOOD_TREE == null || TREE_OF_LIFE == null) {
+            throw new IllegalStateException("VerdantRealms configured feature resource keys failed to initialize");
+        }
     }
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-        // Elderwood - Tall mystical tree with glowing leaves
+        try {
+            registerElderwood(context);
+            registerStarwood(context);
+            registerAshenwood(context);
+            registerCherryBlossom(context);
+            registerTreeOfLife(context);
+            VerdantRealms.LOGGER.info("All VerdantRealms configured features bootstrapped successfully");
+        } catch (Exception e) {
+            VerdantRealms.LOGGER.error("Failed to bootstrap VerdantRealms configured features", e);
+            throw new RuntimeException("VerdantRealms feature bootstrap failed", e);
+        }
+    }
+
+    private static void registerElderwood(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         FeatureUtils.register(context, ELDERWOOD_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
             BlockStateProvider.simple(ModBlocks.ELDERWOOD_LOG.get()),
             new FancyTrunkPlacer(8, 12, 5),
@@ -51,8 +67,9 @@ public class ModConfiguredFeatures {
             new BlobFoliagePlacer(ConstantInt.of(4), ConstantInt.of(2), 4),
             new TwoLayersFeatureSize(2, 0, 2)
         ).build());
+    }
 
-        // Starwood - Dark tree with star-like leaves
+    private static void registerStarwood(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         FeatureUtils.register(context, STARWOOD_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
             BlockStateProvider.simple(ModBlocks.STARWOOD_LOG.get()),
             new DarkOakTrunkPlacer(10, 6, 8),
@@ -60,8 +77,9 @@ public class ModConfiguredFeatures {
             new DarkOakFoliagePlacer(ConstantInt.of(3), ConstantInt.of(1)),
             new TwoLayersFeatureSize(2, 0, 2)
         ).build());
+    }
 
-        // Ashenwood - Burnt-looking tree for volcanic biomes
+    private static void registerAshenwood(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         FeatureUtils.register(context, ASHENWOOD_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
             BlockStateProvider.simple(ModBlocks.ASHENWOOD_LOG.get()),
             new StraightTrunkPlacer(6, 3, 2),
@@ -69,8 +87,9 @@ public class ModConfiguredFeatures {
             new MegaPineFoliagePlacer(ConstantInt.of(2), ConstantInt.of(1), ConstantInt.of(4)),
             new TwoLayersFeatureSize(2, 0, 2)
         ).build());
+    }
 
-        // Cherry Blossom - Beautiful pink tree
+    private static void registerCherryBlossom(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         FeatureUtils.register(context, CHERRY_BLOSSOM_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
             BlockStateProvider.simple(Blocks.CHERRY_LOG),
             new CherryTrunkPlacer(7, 3, 2, new java.util.HashMap<>(), ConstantInt.of(2)),
@@ -78,13 +97,14 @@ public class ModConfiguredFeatures {
             new CherryFoliagePlacer(ConstantInt.of(5), ConstantInt.of(0), ConstantInt.of(5), 0.25f, 0.5f, 0.16666667f, 0.33333334f),
             new TwoLayersFeatureSize(2, 0, 2)
         ).build());
+    }
 
-        // TREE OF LIFE - Ultra rare giant tree
+    private static void registerTreeOfLife(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         FeatureUtils.register(context, TREE_OF_LIFE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
             BlockStateProvider.simple(ModBlocks.ELDERWOOD_LOG.get()),
-            new GiantTrunkPlacer(25, 10, 15), // Massive trunk
-            BlockStateProvider.simple(ModBlocks.MOONSTONE_BLOCK.get()), // Glowing leaves
-            new BlobFoliagePlacer(ConstantInt.of(8), ConstantInt.of(4), 10), // Huge canopy
+            new GiantTrunkPlacer(25, 10, 15),
+            BlockStateProvider.simple(ModBlocks.MOONSTONE_BLOCK.get()),
+            new BlobFoliagePlacer(ConstantInt.of(8), ConstantInt.of(4), 10),
             new TwoLayersFeatureSize(4, 0, 4)
         ).build());
     }
