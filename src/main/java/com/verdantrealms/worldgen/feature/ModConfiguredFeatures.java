@@ -8,6 +8,7 @@ import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -73,7 +74,7 @@ public class ModConfiguredFeatures {
         // Cherry Blossom - Beautiful pink tree
         FeatureUtils.register(context, CHERRY_BLOSSOM_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
             BlockStateProvider.simple(Blocks.CHERRY_LOG),
-            new CherryTrunkPlacer(7, 3, 2, new java.util.HashMap<>(), ConstantInt.of(2)),
+            new CherryTrunkPlacer(7, 3, 2, ConstantInt.of(3), ConstantInt.of(3), UniformInt.of(-4, -3), ConstantInt.of(-1)),
             BlockStateProvider.simple(ModBlocks.CHERRY_BLOSSOM_LEAVES.get()),
             new CherryFoliagePlacer(ConstantInt.of(5), ConstantInt.of(0), ConstantInt.of(5), 0.25f, 0.5f, 0.16666667f, 0.33333334f),
             new TwoLayersFeatureSize(2, 0, 2)
